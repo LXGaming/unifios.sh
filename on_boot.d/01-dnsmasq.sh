@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-# Overwrite upstream nameservers
-cat > /etc/resolv.dnsmasq <<EOF
-nameserver 1.1.1.1
-nameserver 1.0.0.1
-EOF
-
 # Write custom configuration
 cat > /run/dnsmasq.conf.d/custom.conf <<EOF
+no-resolv
 strict-order
+
+server=1.1.1.1
+server=1.0.0.1
 EOF
 
 # Remove 'all-servers' as it conflicts with 'strict-order'
