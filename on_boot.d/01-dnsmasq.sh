@@ -6,7 +6,7 @@ readonly SYSTEMD_SERVICE_UNIT_PATH="/etc/systemd/system/dnsmasq-config.service"
 readonly SYSTEMD_PATH_UNIT_PATH="/etc/systemd/system/dnsmasq-config.path"
 
 configure_dnsmasq() {
-    # Append custom configuration
+    # Write custom configuration
     generate_dnsmasq_config > /run/dnsmasq.conf.d/custom.conf
 
     # Remove 'all-servers' as it conflicts with 'strict-order'
