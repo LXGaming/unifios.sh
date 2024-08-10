@@ -110,6 +110,7 @@ EOF
 
 if [[ ! -f "$SCRIPT_PATH" ]]; then
     echo "Invalid script path: ${SCRIPT_PATH}"
+    exit 1
 fi
 
 command="${1,,}"
