@@ -5,13 +5,6 @@ readonly SCRIPT_PATH="/data/on_boot.d/$(basename $BASH_SOURCE)"
 readonly SYSTEMD_SERVICE_UNIT_PATH="/etc/systemd/system/dnsmasq-config.service"
 readonly SYSTEMD_PATH_UNIT_PATH="/etc/systemd/system/dnsmasq-config.path"
 
-# Colours
-readonly RESET="\e[0m"
-readonly RED="\e[0;91m"
-readonly GREEN="\e[0;92m"
-readonly YELLOW="\e[0;93m"
-readonly CYAN="\e[0;96m"
-
 configure_dnsmasq() {
     # Append custom configuration
     generate_dnsmasq_config > /run/dnsmasq.conf.d/custom.conf
@@ -32,26 +25,26 @@ configure_dnsmasq() {
 
 install_services() {
     if [[ ! -x "$SCRIPT_PATH" ]]; then
-        echo -e "${RED}Script is not executable${RESET}"
+        echo -e "Script is not executable"
         exit 1
     fi
 
     local force="${1:-false}"
     if [[ "$force" != false ]] && [[ "$force" != true ]]; then
-        echo -e "${RED}Force must be a boolean${RESET}"
+        echo -e "Force must be a boolean"
         exit 1
     fi
 
     local result=false
     if [[ "$force" == true ]] || [[ ! -f "$SYSTEMD_SERVICE_UNIT_PATH" ]]; then
         generate_systemd_service_unit > "$SYSTEMD_SERVICE_UNIT_PATH"
-        echo -e "${GREEN}Installed ${SYSTEMD_SERVICE_UNIT_PATH}${RESET}"
+        echo -e "Installed ${SYSTEMD_SERVICE_UNIT_PATH}"
         result=true
     fi
 
     if [[ "$force" == true ]] || [[ ! -f "$SYSTEMD_PATH_UNIT_PATH" ]]; then
         generate_systemd_path_unit > "$SYSTEMD_PATH_UNIT_PATH"
-        echo -e "${GREEN}Installed ${SYSTEMD_PATH_UNIT_PATH}${RESET}"
+        echo -e "Installed ${SYSTEMD_PATH_UNIT_PATH}"
         result=true
     fi
 
@@ -63,7 +56,7 @@ install_services() {
         return 0
     fi
 
-    echo -e "${YELLOW}No services installed${RESET}"
+    echo -e "No services installed"
     return 1
 }
 
@@ -116,7 +109,7 @@ EOF
 }
 
 if [[ ! -f "$SCRIPT_PATH" ]]; then
-    echo "${RED}Invalid script path: ${SCRIPT_PATH}${RESET}"
+    echo "Invalid script path: ${SCRIPT_PATH}"
 fi
 
 command="${1,,}"
@@ -135,5 +128,5 @@ if [[ "$command" == "service" ]]; then
     exit 0
 fi
 
-echo "${RED}Invalid arguments${RESET}"
+echo "Invalid arguments"
 exit 1
