@@ -69,6 +69,9 @@ generate_dnsmasq_config() {
 no-resolv
 strict-order
 
+local=/internal/
+local=/localdomain/
+
 server=1.1.1.1
 server=1.0.0.1
 EOF
